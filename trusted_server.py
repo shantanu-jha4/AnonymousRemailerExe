@@ -202,10 +202,10 @@ def handle_in_mssg(c, addr):
             data = auxilary_functions.recv_full_mssg(len_data, c)
         except (ConnectionResetError, OSError) as e:
             print(e)
-            break
+            return
         if len(data) == 0:
             print('incoming data from ', str(addr), ' is 0')
-            break
+            return
 
         talkto_ts = remailer_pb2.AnonMssg()
         talkto_ts.ParseFromString(data)
