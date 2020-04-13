@@ -232,7 +232,7 @@ def handle_in_mssg(c, addr):
                 talkto_ts_b_len = auxilary_functions.int_to_bytes(len(talkto_ts_b))
                 talkto_ts_resp = talkto_ts_b_len + talkto_ts_b
                 c.send(talkto_ts_resp)
-                break
+                return
             
             talkto_ts = remailer_pb2.AnonMssg()
             talkto_ts.ts_reply.full_path.extend(remailer_list)
