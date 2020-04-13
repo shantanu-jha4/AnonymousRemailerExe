@@ -1,0 +1,9 @@
+# Self server configuration
+self_server:
+    port: 22300                   # Trusted server port
+    
+# Path to a `All Remailer List`
+all_remailer_list: "data/all_remailer_list.db"
+  
+# Path to a `Key Store`
+self_server_keys: "data/trusted_server.key"
