@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0eremailer.proto\"\xfb\x01\n\x08\x41nonMssg\x12(\n\x0e\x63lient_request\x18\x01 \x01(\x0b\x32\x0e.ClientRequestH\x00\x12\x1c\n\x08ts_reply\x18\x02 \x01(\x0b\x32\x08.TSReplyH\x00\x12&\n\rerror_message\x18\x03 \x01(\x0b\x32\r.ErrorMessageH\x00\x12(\n\x0eremailer_hello\x18\x04 \x01(\x0b\x32\x0e.RemailerHelloH\x00\x12\x1c\n\x08ts_hello\x18\x05 \x01(\x0b\x32\x08.TSHelloH\x00\x12+\n\x0e\x65ncrypted_mssg\x18\x06 \x01(\x0b\x32\x11.EncryptedMessageH\x00\x42\n\n\x08message_\"%\n\x0c\x45rrorMessage\x12\x15\n\rerror_message\x18\x01 \x01(\t\"<\n\rClientRequest\x12\x17\n\x0fno_of_remailers\x18\x01 \x01(\r\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\"O\n\x07TSReply\x12\x1f\n\tfull_path\x18\x01 \x03(\x0b\x32\x0c.PathElement\x12\r\n\x05ts_pk\x18\x02 \x01(\x0c\x12\x14\n\x0c\x65xit_node_pk\x18\x03 \x01(\x0c\"e\n\rRemailerHello\x12$\n\rping_response\x18\x01 \x01(\x0b\x32\r.PingResponse\x12\x14\n\x0cstring_agent\x18\x02 \x01(\t\x12\x18\n\x04self\x18\x03 \x01(\x0b\x32\n.Remailers\"W\n\x07TSHello\x12\"\n\x0cping_request\x18\x01 \x01(\x0b\x32\x0c.PingRequest\x12\x14\n\x0cstring_agent\x18\x02 \x01(\t\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\"*\n\x0bPingRequest\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\r\n\x05nonce\x18\x02 \x01(\x0c\"\x1c\n\x0cPingResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"2\n\x10\x45ncryptedMessage\x12\x0f\n\x07message\x18\x01 \x01(\x0c\x12\r\n\x05nonce\x18\x02 \x01(\x0c\"<\n\x10\x44\x65\x63ryptedMessage\x12\x17\n\x06header\x18\x01 \x01(\x0b\x32\x07.Header\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"O\n\x05\x45mail\x12\x1f\n\tfull_path\x18\x01 \x03(\x0b\x32\x0c.PathElement\x12\x14\n\x0c\x61\x62out_sender\x18\x02 \x01(\x0c\x12\x0f\n\x07message\x18\x03 \x01(\t\".\n\x06Header\x12\x12\n\nip_address\x18\x01 \x01(\t\x12\x10\n\x08receiver\x18\x02 \x01(\t\"$\n\x0b\x43lientHello\x12\x15\n\rmajor_version\x18\x01 \x01(\r\"/\n\x04Keys\x12\x13\n\x0bprivate_key\x18\x01 \x01(\x0c\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\"-\n\x0cRemailerList\x12\x1d\n\tremailers\x18\x01 \x03(\x0b\x32\n.Remailers\"J\n\x0bPathElement\x12\x18\n\x10remailer_on_path\x18\x01 \x01(\x0c\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\r\n\x05nonce\x18\x03 \x01(\x0c\"A\n\tRemailers\x12\x12\n\nip_address\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\x62\x06proto3')
+  serialized_pb=_b('\n\x0eremailer.proto\"\xfb\x01\n\x08\x41nonMssg\x12(\n\x0e\x63lient_request\x18\x01 \x01(\x0b\x32\x0e.ClientRequestH\x00\x12\x1c\n\x08ts_reply\x18\x02 \x01(\x0b\x32\x08.TSReplyH\x00\x12&\n\rerror_message\x18\x03 \x01(\x0b\x32\r.ErrorMessageH\x00\x12(\n\x0eremailer_hello\x18\x04 \x01(\x0b\x32\x0e.RemailerHelloH\x00\x12\x1c\n\x08ts_hello\x18\x05 \x01(\x0b\x32\x08.TSHelloH\x00\x12+\n\x0e\x65ncrypted_mssg\x18\x06 \x01(\x0b\x32\x11.EncryptedMessageH\x00\x42\n\n\x08message_\"%\n\x0c\x45rrorMessage\x12\x15\n\rerror_message\x18\x01 \x01(\t\"<\n\rClientRequest\x12\x17\n\x0fno_of_remailers\x18\x01 \x01(\r\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\"O\n\x07TSReply\x12\x1f\n\tfull_path\x18\x01 \x03(\x0b\x32\x0c.PathElement\x12\r\n\x05ts_pk\x18\x02 \x01(\x0c\x12\x14\n\x0c\x65xit_node_pk\x18\x03 \x01(\x0c\"e\n\rRemailerHello\x12$\n\rping_response\x18\x01 \x01(\x0b\x32\r.PingResponse\x12\x14\n\x0cstring_agent\x18\x02 \x01(\t\x12\x18\n\x04self\x18\x03 \x01(\x0b\x32\n.Remailers\"W\n\x07TSHello\x12\"\n\x0cping_request\x18\x01 \x01(\x0b\x32\x0c.PingRequest\x12\x14\n\x0cstring_agent\x18\x02 \x01(\t\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\"*\n\x0bPingRequest\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\x12\r\n\x05nonce\x18\x02 \x01(\x0c\"\x1c\n\x0cPingResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\x0c\"2\n\x10\x45ncryptedMessage\x12\x0f\n\x07message\x18\x01 \x01(\x0c\x12\r\n\x05nonce\x18\x02 \x01(\x0c\"<\n\x10\x44\x65\x63ryptedMessage\x12\x17\n\x06header\x18\x01 \x01(\x0b\x32\x07.Header\x12\x0f\n\x07message\x18\x02 \x01(\x0c\"[\n\x05\x45mail\x12\x1f\n\tfull_path\x18\x01 \x03(\x0b\x32\x0c.PathElement\x12\x14\n\x0c\x61\x62out_sender\x18\x02 \x01(\x0c\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\n\n\x02id\x18\x04 \x01(\t\".\n\x06Header\x12\x12\n\nip_address\x18\x01 \x01(\t\x12\x10\n\x08receiver\x18\x02 \x01(\t\"$\n\x0b\x43lientHello\x12\x15\n\rmajor_version\x18\x01 \x01(\r\"/\n\x04Keys\x12\x13\n\x0bprivate_key\x18\x01 \x01(\x0c\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\"-\n\x0cRemailerList\x12\x1d\n\tremailers\x18\x01 \x03(\x0b\x32\n.Remailers\"n\n\x0bPathElement\x12\x18\n\x10remailer_on_path\x18\x01 \x01(\x0c\x12\x12\n\npublic_key\x18\x02 \x01(\x0c\x12\r\n\x05nonce\x18\x03 \x01(\x0c\x12\"\n\x0b\x61ll_rm_list\x18\x04 \x01(\x0b\x32\r.RemailerList\"A\n\tRemailers\x12\x12\n\nip_address\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\r\x12\x12\n\npublic_key\x18\x03 \x01(\x0c\x62\x06proto3')
 )
 
 
@@ -471,6 +471,13 @@ _EMAIL = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='id', full_name='Email.id', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -484,7 +491,7 @@ _EMAIL = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=834,
-  serialized_end=913,
+  serialized_end=925,
 )
 
 
@@ -521,8 +528,8 @@ _HEADER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=915,
-  serialized_end=961,
+  serialized_start=927,
+  serialized_end=973,
 )
 
 
@@ -552,8 +559,8 @@ _CLIENTHELLO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=963,
-  serialized_end=999,
+  serialized_start=975,
+  serialized_end=1011,
 )
 
 
@@ -590,8 +597,8 @@ _KEYS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1001,
-  serialized_end=1048,
+  serialized_start=1013,
+  serialized_end=1060,
 )
 
 
@@ -621,8 +628,8 @@ _REMAILERLIST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1050,
-  serialized_end=1095,
+  serialized_start=1062,
+  serialized_end=1107,
 )
 
 
@@ -654,6 +661,13 @@ _PATHELEMENT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='all_rm_list', full_name='PathElement.all_rm_list', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -666,8 +680,8 @@ _PATHELEMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1097,
-  serialized_end=1171,
+  serialized_start=1109,
+  serialized_end=1219,
 )
 
 
@@ -711,8 +725,8 @@ _REMAILERS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1173,
-  serialized_end=1238,
+  serialized_start=1221,
+  serialized_end=1286,
 )
 
 _ANONMSSG.fields_by_name['client_request'].message_type = _CLIENTREQUEST
@@ -746,6 +760,7 @@ _TSHELLO.fields_by_name['ping_request'].message_type = _PINGREQUEST
 _DECRYPTEDMESSAGE.fields_by_name['header'].message_type = _HEADER
 _EMAIL.fields_by_name['full_path'].message_type = _PATHELEMENT
 _REMAILERLIST.fields_by_name['remailers'].message_type = _REMAILERS
+_PATHELEMENT.fields_by_name['all_rm_list'].message_type = _REMAILERLIST
 DESCRIPTOR.message_types_by_name['AnonMssg'] = _ANONMSSG
 DESCRIPTOR.message_types_by_name['ErrorMessage'] = _ERRORMESSAGE
 DESCRIPTOR.message_types_by_name['ClientRequest'] = _CLIENTREQUEST
