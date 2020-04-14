@@ -12,4 +12,4 @@ trusted_server:
 #all_remailer_list: "data/all_remailer_list.db"
   
 # Path to a `Key Store`
-self_server_keys: "data/remailerx.key"
+self_server_keys: "data/remailerz.key"
