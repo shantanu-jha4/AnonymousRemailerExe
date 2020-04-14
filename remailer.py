@@ -12,6 +12,7 @@ trusted_server_ip = ''; trusted_server_port = 0; trusted_server_public_key = b''
 public_key = b''; private_key = b''
 PADDING_SIZE = 3000
 do_padding = True; do_delay = True; send_global_mail = True
+anon_mssg_ids = []
 rlock = threading.RLock()
 
 def init_socket(port, no_bind = False):
@@ -64,8 +65,7 @@ def send_to_next_hop(email_mssg, delay):
     global trusted_server_public_key; global send_global_mail
     full_path = email_mssg.full_path
     entry_node = full_path[0]
-    #print('what the fuck')
-    #print(mime_mssg.as_string())
+    
     if len(full_path) == 1:
         try:
             #msg = Parser().parsestr(email_mssg.message)
@@ -115,6 +115,7 @@ def send_to_next_hop(email_mssg, delay):
         final_email.full_path.extend(full_path)
         final_email.about_sender = email_mssg.about_sender
         final_email.message = mime_mssg.as_string()
+        final_email.id = email_mssg.id
 
         global do_padding
         if do_padding:
@@ -135,18 +136,23 @@ def send_to_next_hop(email_mssg, delay):
         anon_mssg = remailer_pb2.AnonMssg()
         anon_mssg.encrypted_mssg.message = encrypted_email
         anon_mssg.encrypted_mssg.nonce = _nonce_t + public_key
-        #anon_mssg.encrypted_mssg.pk = to_addr.public_key
 
         ciphertext_resp_b = anon_mssg.SerializeToString()
         ciphertext_resp_b_len = auxilary_functions.int_to_bytes(len(ciphertext_resp_b))
         ciphertext_resp = ciphertext_resp_b_len + ciphertext_resp_b
         print('Final message: ', len(ciphertext_resp))
 
-        send_sock = init_socket(0, True)
-        send_sock.connect((to_addr.ip_address, to_addr.port))
-        send_sock.send(ciphertext_resp)
-        print('Message Forwarded')
-        send_sock.close()
+        for k in entry_node.all_rm_list.remailers:
+            try:
+                send_sock = init_socket(0, True)
+                #send_sock.connect((to_addr.ip_address, to_addr.port))
+                send_sock.connect((k.ip_address, k.port))
+                send_sock.send(ciphertext_resp)
+                print('Message Forwarded')
+                send_sock.close()
+            except:
+                continue
+
         try:
             maplogger.sending_to_logger(to_addr.ip_address)
         except:
@@ -205,8 +211,13 @@ def handle_in_mssg(c, addr):
             elif mssg_type == 'encrypted_mssg':
                 sender_deets = talkto_ts.encrypted_mssg.nonce
                 sender_nonce = sender_deets[0:24]; sender_pk = sender_deets[24:]
-                (rx,tx) = nacl.bindings.crypto_kx_server_session_keys(public_key, private_key, sender_pk)
-                plaintext = nacl.bindings.crypto_secretbox_open(talkto_ts.encrypted_mssg.message, sender_nonce, rx)
+                try:
+                    (rx,tx) = nacl.bindings.crypto_kx_server_session_keys(public_key, private_key, sender_pk)
+                    plaintext = nacl.bindings.crypto_secretbox_open(talkto_ts.encrypted_mssg.message, sender_nonce, rx)
+                except:
+                    print('NOT FOR ME')
+                    break
+                
                 try:
                     with warnings.catch_warnings():
                         warnings.filterwarnings('RuntimeWarning')
@@ -223,7 +234,13 @@ def handle_in_mssg(c, addr):
                     recvd_email = remailer_pb2.Email()
                     recvd_email.ParseFromString(email_content)
                 
-                print()
+                global anon_mssg_ids
+                if recvd_email.id in anon_mssg_ids:
+                    print('ID already used')
+                    break
+                else:
+                    anon_mssg_ids.append(recvd_email.id)
+                
                 global do_delay
                 if do_delay: 
                     randi = secrets.randbelow(28744203713818482289)
