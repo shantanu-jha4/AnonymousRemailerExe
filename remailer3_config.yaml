@@ -1,10 +1,10 @@
 # Remailer Server configuration
 self_server:
     alias: 'remailer #3'
-    port: 34219
+    port: 30999
 
 trusted_server:
-    ipv4_address: "127.0.0.1"   # IPv4 address of the status server
+    ipv4_address: "15.223.94.116"   # IPv4 address of the status server
     ipv6_address: "..."           # Or, an IPv6 address
     port: 22300                   # Status server port
     
