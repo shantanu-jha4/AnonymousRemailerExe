@@ -13,7 +13,7 @@ def location_logger():
        print("socket creation failed with error %s" % (err))
    
    #try:
-   s.connect(('52.37.103.34', port))
+   s.connect(('35.155.94.240', port))
    
    #Getting public ip info
    info = urlopen('http://ipinfo.io/json')
@@ -39,7 +39,7 @@ def sending_to_logger(ip_addr):
    except socket.error as err:
        print("socket creation failed with error %s" % (err))
    # try:
-   s.connect(('52.37.103.34', port))
+   s.connect(('35.155.94.240', port))
    info = urlopen('http://ipinfo.io/json')
    data = json.load(info)
    public_ip = data['ip']
