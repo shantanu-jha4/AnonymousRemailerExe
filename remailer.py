@@ -227,7 +227,7 @@ def handle_in_mssg(c, addr):
                 global do_delay
                 if do_delay: 
                     randi = secrets.randbelow(28744203713818482289)
-                    delay = randi%7
+                    delay = randi%5
                 else:
                     delay = 0
                 #print(delay)
