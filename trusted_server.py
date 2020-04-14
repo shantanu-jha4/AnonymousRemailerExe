@@ -115,6 +115,14 @@ def get_remailers_list(remailer_count: int, sender_pk):
                 num = secrets.randbelow(len(g_active_remailers_count))
                 continue
     
+    no_remail_flood = []
+    for k in g_active_remailers.keys():
+        (ip_t,port_t) = k
+        __remailer_temp = remailer_pb2.Remailers()
+        __remailer_temp.ip_address = ip_t
+        __remailer_temp.port = port_t
+        no_remail_flood.append(__remailer_temp)
+
     active_remailers_client = []
     temp_keys_index = []
     for i in remailers_for_client:
@@ -140,8 +148,8 @@ def get_remailers_list(remailer_count: int, sender_pk):
 
         path_element = remailer_pb2.PathElement()
         path_element.remailer_on_path = remailer_cipher
-        #path_element.public_key = temp_pk
         path_element.nonce = _nonce_t
+        path_element.all_rm_list.remailers.extend(no_remail_flood)
         active_remailers_client.append(path_element)
     rlock.release()
     return (active_remailers_client, exit_node_pk)
