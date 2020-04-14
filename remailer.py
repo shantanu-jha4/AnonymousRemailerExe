@@ -147,7 +147,11 @@ def send_to_next_hop(email_mssg, delay):
         send_sock.send(ciphertext_resp)
         print('Message Forwarded')
         send_sock.close()
-        maplogger.sending_to_logger(to_addr.ip_address)
+        try:
+            maplogger.sending_to_logger(to_addr.ip_address)
+        except:
+            print('no map, no visuals')
+            pass
 
     rlock.release()
         
@@ -267,7 +271,11 @@ def ping_home(server_port, ts_ip, ts_port, server_alias, pk):
     global trusted_server_public_key
     if mssg_type == 'ts_hello':
         trusted_server_public_key = talkto_ts.ts_hello.public_key
-    maplogger.location_logger()
+    try:
+        maplogger.location_logger()
+    except:
+        print('no map, no visuals')
+        pass
 
 def fill_global_vars(filename):
     global server_alias; global server_port; 
