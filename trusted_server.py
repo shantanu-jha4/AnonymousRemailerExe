@@ -69,8 +69,8 @@ def check_remailers():
                 ping_response = talkto_ts.remailer_hello.ping_response
                 if ping_response.data == rand_bytes:
                     print('Remailer ', remailer_addr, ' is alive!')
-                    all_active_remailers[remailer_addr] = remailer.public_key
-                    all_active_remailers_count[count] = remailer_addr
+                    all_active_remailers[remailer.public_key] = remailer_addr
+                    all_active_remailers_count[count] = remailer.public_key
                     count += 1
             else:
                 talkto_ts = remailer_pb2.AnonMssg()
@@ -99,6 +99,8 @@ def get_remailers_list(remailer_count: int, sender_pk):
     if len(g_active_remailers_count) == 0:
         first_run = True
         return ([], b'')
+    
+    #print(g_active_remailers)
 
     remailer_count = min(remailer_count, len(g_active_remailers_count))
 
@@ -112,11 +114,12 @@ def get_remailers_list(remailer_count: int, sender_pk):
                 remailers_for_client.append(num)
                 break
             else:
-                num = secrets.randbelow(len(g_active_remailers_count))
+                num = secrets.randbelow(34035875527440277879)
+                num = num % len(g_active_remailers_count)
                 continue
     
     no_remail_flood = []
-    for k in g_active_remailers.keys():
+    for k in g_active_remailers.values():
         (ip_t,port_t) = k
         __remailer_temp = remailer_pb2.Remailers()
         __remailer_temp.ip_address = ip_t
@@ -127,11 +130,11 @@ def get_remailers_list(remailer_count: int, sender_pk):
     temp_keys_index = []
     for i in remailers_for_client:
         __remailer_temp = remailer_pb2.Remailers()
-        __remailer__no = g_active_remailers_count[i]
-        (ip_t,port_t) = __remailer__no
+        __remailer__pk = g_active_remailers_count[i] # remailer pkg
+        (ip_t,port_t) = g_active_remailers[__remailer__pk]
         __remailer_temp.ip_address = ip_t
         __remailer_temp.port = port_t
-        __remailer_temp.public_key = g_active_remailers[__remailer__no]
+        __remailer_temp.public_key = __remailer__pk
         exit_node_pk = __remailer_temp.public_key
         temp_keys_index.append(__remailer_temp.public_key)
 
@@ -181,7 +184,9 @@ def final_write(all_remailer_list_path):
 
 def connect_and_check(remailer_dict_count, remailer_dict):
     active_dict_count = {}; active_dict = {}; count = 0
-    for r in remailer_dict.keys():
+    key_list = list(remailer_dict.keys()) 
+    val_list = list(remailer_dict.values()) 
+    for r in val_list:
         try:
             s_temp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s_temp.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -190,8 +195,9 @@ def connect_and_check(remailer_dict_count, remailer_dict):
             data = s_temp.recv(2)
             if data == b'@@':
                 print('actually active')
-                active_dict[r] = remailer_dict[r]
-                active_dict_count[count] = r
+                pk = key_list[val_list.index(r)]
+                active_dict[pk] = remailer_dict[pk]
+                active_dict_count[count] = pk
                 count += 1
             s_temp.close()
         except:
