@@ -153,7 +153,6 @@ def register_remailer(addr, rm_hello_mssg):
     remailer1.CopyFrom(rm_hello_mssg)
     remailer1.ip_address = ip
     global all_remailers_list
-    print('ALL REMAILER LIST: ', all_remailers_list)
     if remailer1 not in all_remailers_list:
         all_remailers_list.append(remailer1)
     rlock.release()
@@ -196,54 +195,54 @@ def handle_in_mssg(c, addr):
     global public_key
     with c:
         print ("incoming from", addr)
-        try:
-            data = c.recv(2)
-            len_data = auxilary_functions.bytes_to_int(data)
-            data = auxilary_functions.recv_full_mssg(len_data, c)
-        except (ConnectionResetError, OSError) as e:
-            print(e)
-            return
-        if len(data) == 0:
-            print('incoming data from ', str(addr), ' is 0')
-            return
+        #try:
+        while True:
+            try:
+                data = c.recv(2)
+                len_data = auxilary_functions.bytes_to_int(data)
+                data = auxilary_functions.recv_full_mssg(len_data, c)
+            except (ConnectionResetError, OSError) as e:
+                print(e)
+                break
+            if len(data) == 0:
+                print('incoming data from ', str(addr), ' is 0')
+                break
 
-        talkto_ts = remailer_pb2.AnonMssg()
-        talkto_ts.ParseFromString(data)
-        mssg_type = talkto_ts.WhichOneof('message_')
-        
-        if mssg_type == 'remailer_hello':
-            talkto_rm = remailer_pb2.AnonMssg()
-            talkto_rm.ts_hello.string_agent = 'Welcome ' + talkto_ts.remailer_hello.string_agent
-            talkto_rm.ts_hello.public_key = public_key
-            talkto_rm_b = talkto_rm.SerializeToString()
-            talkto_rm_b_len = auxilary_functions.int_to_bytes(len(talkto_rm_b))
-            talkto_rm_resp = talkto_rm_b_len + talkto_rm_b
-            c.send(talkto_rm_resp)
-            register_remailer(addr,talkto_ts.remailer_hello.self)
+            talkto_ts = remailer_pb2.AnonMssg()
+            talkto_ts.ParseFromString(data)
+            mssg_type = talkto_ts.WhichOneof('message_')
+            
+            if mssg_type == 'remailer_hello':
+                talkto_rm = remailer_pb2.AnonMssg()
+                talkto_rm.ts_hello.string_agent = 'Welcome ' + talkto_ts.remailer_hello.string_agent
+                talkto_rm.ts_hello.public_key = public_key
+                talkto_rm_b = talkto_rm.SerializeToString()
+                talkto_rm_b_len = auxilary_functions.int_to_bytes(len(talkto_rm_b))
+                talkto_rm_resp = talkto_rm_b_len + talkto_rm_b
+                c.send(talkto_rm_resp)
+                register_remailer(addr,talkto_ts.remailer_hello.self)
 
-        elif mssg_type == 'client_request':
-            #print(len(talkto_ts.client_request.public_key))
-            (remailer_list, exit_pk) = get_remailers_list(talkto_ts.client_request.no_of_remailers, talkto_ts.client_request.public_key)
-            #print(remailer_list, exit_pk)
-            if remailer_list == [] and exit_pk == b'':
+            elif mssg_type == 'client_request':
+                (remailer_list, exit_pk) = get_remailers_list(talkto_ts.client_request.no_of_remailers, talkto_ts.client_request.public_key)
+                if remailer_list == [] and exit_pk == b'':
+                    talkto_ts = remailer_pb2.AnonMssg()
+                    talkto_ts.error_message.error_message = 'No active remailers'
+                    talkto_ts_b = talkto_ts.SerializeToString()
+                    talkto_ts_b_len = auxilary_functions.int_to_bytes(len(talkto_ts_b))
+                    talkto_ts_resp = talkto_ts_b_len + talkto_ts_b
+                    c.send(talkto_ts_resp)
+                    break
+                
                 talkto_ts = remailer_pb2.AnonMssg()
-                talkto_ts.error_message.error_message = 'No active remailers'
+                talkto_ts.ts_reply.full_path.extend(remailer_list)
+                talkto_ts.ts_reply.ts_pk = public_key
+                talkto_ts.ts_reply.exit_node_pk = exit_pk
                 talkto_ts_b = talkto_ts.SerializeToString()
                 talkto_ts_b_len = auxilary_functions.int_to_bytes(len(talkto_ts_b))
                 talkto_ts_resp = talkto_ts_b_len + talkto_ts_b
                 c.send(talkto_ts_resp)
-                return
             
-            talkto_ts = remailer_pb2.AnonMssg()
-            talkto_ts.ts_reply.full_path.extend(remailer_list)
-            talkto_ts.ts_reply.ts_pk = public_key
-            talkto_ts.ts_reply.exit_node_pk = exit_pk
-            talkto_ts_b = talkto_ts.SerializeToString()
-            talkto_ts_b_len = auxilary_functions.int_to_bytes(len(talkto_ts_b))
-            talkto_ts_resp = talkto_ts_b_len + talkto_ts_b
-            c.send(talkto_ts_resp)
-        
-        else:
+            else:
                 talkto_ts = remailer_pb2.AnonMssg()
                 talkto_ts.error_message.error_message = 'Unrecognized'
                 talkto_ts_b = talkto_ts.SerializeToString()
@@ -256,9 +255,7 @@ def fill_global_vars(filename):
     global public_key; global private_key
     (server_port,all_remailers_list_path,all_remailers_list,private_key, public_key) = auxilary_functions.parse_config_file(filename)
     print('Entry: ', all_remailers_list)
-    #print(server_port); print(all_remailers_list); print(server_sk); print(server_pk)
-    #helpers.add_to_pinned_base(pinned_cert_db_path, nstp_v4_pb2.Certificate(), True)
-    #helpers.add_to_trust_base('/home/captain/Dropbox/stuff/ns/as03/data/accept.db', nstp_v4_pb2.Certificate(), True)
+
 def check_args():
     parser = argparse.ArgumentParser(description='Trusted Server Program')
     parser.add_argument('config', metavar='<path to file>', type=str, help='path to config file')
